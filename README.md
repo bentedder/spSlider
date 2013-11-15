@@ -36,3 +36,11 @@ $("#slider1").spSlider({
 All options for the iDangerous swiper can be found on the [iDangerous Swiper website](http://www.idangero.us/sliders/swiper/api.php).
 
 Note, the listName is notoriously hard to figure out in SharePoint. It's always best to create a list without any spaces in the name. Then after it is created you can go in and add space back to the name. You should use the non-spaced name for this plugin. 
+
+How it's done
+-------------
+If you check out the files in the /src directory you'll see that I'm combining everything into one tiny script. The goal is for the end user to not have to worry about jQuery, sliders, plugins, etc. They just need to put in one script, one css, and some markup.
+
+So basically I created a jQuery plugin called **spSlider**. This plugin gathers options from the user, queries SharePoint, creates the HTML for the list, and puts it in the container element. Then it has a method called **applyPlugin**, where I've put the code for applying all settings from the user to the iDangerous swiper plugin. It's built so that if you have a swiper you prefer to use, you can swap it out.
+
+It's super basic. I'd eventually like to add lazyloading, etc. But I also kind of see that as the responsibility of the plugin. This is essentially a wrapper for any jQuery slider that makes it useable in SharePoint.
