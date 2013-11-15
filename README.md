@@ -12,10 +12,9 @@ Put this in a Content Editor Webpart (CEWP)
 <div id="slider1" class="swiper-container"></div>
 ```
 
-```
-
 Plugin implementation
 ---------------------
+Put this javascript below the slider (in the same CEWP).
 
 ```javascript
 $("#slider1").spSlider({
@@ -34,4 +33,6 @@ $("#slider1").spSlider({
 });
 ```
 
-All options for the swiper can be found in the table below, or on the [iDangerous Swiper website](http://www.idangero.us/sliders/swiper/api.php). Note, the listName is notoriously hard to figure out in SharePoint. It's always best to create a list without any spaces in the name. Then after it is created you can go in and add space back to the name. You should use the non-spaced name for this plugin. 
+All options for the iDangerous swiper can be found on the [iDangerous Swiper website](http://www.idangero.us/sliders/swiper/api.php).
+
+Note, the listName is notoriously hard to figure out in SharePoint. It's always best to create a list without any spaces in the name. Then after it is created you can go in and add space back to the name. You should use the non-spaced name for this plugin. 
