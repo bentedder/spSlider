@@ -1,5 +1,5 @@
 /*!
- spSlider Build version 0.0.1, 11-15-2013, 10:30:46 AM
+ spSlider Build version 0.0.1, 11-15-2013, 11:36:00 AM
 */
 /*!
  * jQuery JavaScript Library v1.10.2
@@ -12301,12 +12301,13 @@ if ( typeof( module ) !== 'undefined' )
 		// set width and height of slides
 		$(".swiper-slide").height(settings.height + "px").width(settings.width + "px");
 		$(".swiper-container").height(settings.height + "px").width(settings.width + "px");
-		
-		var swiper = el.swiper({
+		var hardcodedOptions = {
 			keyboardControl: true,
 			loop: true,
 			watchActiveIndex: true
-		});
+		};
+		$.extend(settings, hardcodedOptions);
+		var swiper = el.swiper(settings);
 		el.children(".swipe-nav.left").click(function(){swiper.swipePrev()});
 		el.children(".swipe-nav.right").click(function(){swiper.swipeNext()});
 	};
@@ -12327,6 +12328,7 @@ if ( typeof( module ) !== 'undefined' )
 		var pagination = "<a class='swipe-nav left'>left</a><a class='swipe-nav right'>right</a>";
 		var slides = "<div class='swiper-wrapper'>";
 		for(i = 0; i < listLength; i++) {
+
 			slides += "<div class='swiper-slide'>";
 			slides += "<img src='" + list[i].image + "' />";
 			slides += "<div class='caption'>" + list[i].title + "</div>";
@@ -12334,7 +12336,6 @@ if ( typeof( module ) !== 'undefined' )
 		}
 		slides += "</ul>";
 		var result = pagination + slides;
-		console.log(result);
 		return pagination + slides;
 
 	};
@@ -12342,11 +12343,12 @@ if ( typeof( module ) !== 'undefined' )
 	// get data from SharePoint
 	var getData = function(settings) {
 		var data = [];
-/*
-		$().SPServices({
+
+	/* $().SPServices({
 			operation: "GetListItems",
 			async: true,
 			listName: settings.listName,
+			// query for category
 			completefunc: function(xData, Status) {
 				data = $(xData.responseXML).SPFilterNode("z:row").SPXmlToJson({ 
 					includeAllAttrs: true,
@@ -12358,7 +12360,7 @@ if ( typeof( module ) !== 'undefined' )
 		
 		data = [
 			{
-				title: "Test image. This is a really big caption that will probably overflow the area. I guess not. Needs to be a bit longer.",
+				title: "Test image",
 				image: "images/1.jpg",
 				link: "http://www.google.com",
 				categories: "ES;MS;HS"

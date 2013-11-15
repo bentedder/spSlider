@@ -23,7 +23,7 @@ module.exports = function(grunt) {
             "src/css/idangerous.swiper.css",
             "src/css/style.css"
         ],
-        dest: "dist/css/screen.css",
+        dest: "dist/css/<%= pkg.name %>.css",
 		options: {
 			separator: ""
       	}
