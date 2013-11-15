@@ -9,14 +9,18 @@ module.exports = function(grunt) {
         banner: '/*!\n <%= pkg.name %> Build version <%= pkg.version %>, <%= grunt.template.today("mm-dd-yyyy, h:MM:ss TT") %>\n*/\n',
         separator: ";"
       },
-      slider: {
+      sliderpkg: {
         src: [
               "src/js/jquery-1.10.2.js",
               "src/js/idangerous.swiper-2.3.js",
               "src/js/slider.js"
        		 	
             ],
-        dest: "dist/js/<%= pkg.name %>.js"
+        dest: "dist/js/<%= pkg.name %>-pkg.js"
+      },
+      slider: {
+        src: "src/js/slider.js",
+        dest: "dist/js/spSlider.js"
       },
 	    css: {
         src: [
@@ -36,14 +40,15 @@ module.exports = function(grunt) {
       },
       dist: {
         files: {
-          "dist/js/<%= pkg.name %>.min.js": ["<%= concat.slider.dest %>"]
+          "dist/js/<%= pkg.name %>-pkg.min.js": ["<%= concat.sliderpkg.dest %>"],
+          "dist/js/spSlider.min.js": ["<%= concat.slider.dest %>"]
         }
       }
     },
     cssmin: {
       css:{
         src: "<%= concat.css.dest %>",
-        dest: "dist/css/screen.min.css"
+        dest: "dist/css/spSlider.min.css"
       }
     },
     copy: {

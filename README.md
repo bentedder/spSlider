@@ -44,3 +44,7 @@ If you check out the files in the /src directory you'll see that I'm combining e
 So basically I created a jQuery plugin called **spSlider**. This plugin gathers options from the user, queries SharePoint, creates the HTML for the list, and puts it in the container element. Then it has a method called **applyPlugin**, where I've put the code for applying all settings from the user to the iDangerous swiper plugin. It's built so that if you have a swiper you prefer to use, you can swap it out.
 
 It's super basic. I'd eventually like to add lazyloading, etc. But I also kind of see that as the responsibility of the plugin. This is essentially a wrapper for any jQuery slider that makes it useable in SharePoint.
+
+Dependencies
+------------
+The script depends on jQuery, SPServices, and iDangerous Swiper. These could all be extracted and loaded in whatever fashion you choose. However, I've done it this way to make it "easier" for the user. They only need to load one javascript file.
