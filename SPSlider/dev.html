@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SharePoint Slider</title>
+
+	<script src="src/js/jquery-1.10.2.js" type="text/javascript"></script>
+	<script src="src/js/idangerous.swiper-2.3.js" type="text/javascript"></script>
+	<script src="src/js/slider.js" type="text/javascript"></script>
+
+	<link href="src/css/style.css" rel="stylesheet" />
+	<link href="src/css/idangerous.swiper.css" rel="stylesheet" />
+
+	<style type="text/css">
+		#wrapper {
+			width:600px;
+			margin:0 auto;
+			background:#fff;
+			padding:20px;
+		}
+		h1 {
+			margin-top:0;
+			font-weight:normal;
+		}
+		a {
+			color:#b80000;
+		}
+	</style>
+
+</head>
+<body>
+<div id="wrapper">
+	<h1>SharePoint Slider</h1>
+	This uses the <a href="http://www.idangero.us/sliders/swiper/api.php">iDangerous Swiper</a> for the sliding functionality. It also uses the <a href="http://spservices.codeplex.com">jQuery SPServices library</a> to query data from SharePoint. There can be multiple sliders on one page. Just make sure each has a unique ID, but each one must have the class of "swiper-container" (the only requirement).<br/><br/>
+
+	<div id="slider1" class="swiper-container"></div>
+	<script>
+		$("#slider1").spSlider({
+			width: 600,
+			height: 150,
+			slidesPerView: 2,
+			categories: ["MS"]
+		});
+	</script>
+
+	<div style="margin:0 auto;width:600px;">
+		<h3>Usage</h3>
+<pre style="background:#fff;padding:10px;overflow:auto">
+$("#slider1").spSlider({
+  
+  // required parameters for the slider
+  width:    600,                       // number of pixels wide
+  height:   150,                       // number of pixels high
+  listURL:  "https://mysite/subsite/", // url where the list resides
+  listName: "Pictures",                // name of the list
+  categories: ["MS","HS"]
+
+  // put other options for the iDangerous swiper here:
+  slidesPerView: 2,
+  loop: true
+
+});
+</pre>
+
+All options for the swiper can be found in the table below, or on the <a href="http://www.idangero.us/sliders/swiper/api.php">iDangerous Swiper</a> website.
+
+Note, the listName is notoriously hard to figure out in SharePoint. It's always best to create a list without any spaces in the name. Then after it is created you can go in and add space back to the name. You should use the non-spaced name for this plugin.
+<br/><br/><hr/><br/>
+<table class="params" style="font-size:0.9em;" border="1" bordercolor="#000" cellpadding="10" cellspacing="0">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default Value</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>speed</td>
+<td>number</td>
+<td>300</td>
+<td>600</td>
+<td>duration of animation between slides (in ms)</td>
+</tr>
+<tr>
+<td>autoplay</td>
+<td>number</td>
+<td>5000</td>
+<td>-</td>
+<td> delay between transitions (in ms). If this parameter is not specified, auto play will be disabled </td>
+</tr>
+<tr>
+<td>mode</td>
+<td>string</td>
+<td>'horizontal'</td>
+<td>'vertical'</td>
+<td> slides will be positioned horizontally (for horizontal swipes) or vertically (for vertical swipes) </td>
+</tr>
+<tr>
+<td>loop</td>
+<td>boolean</td>
+<td>false</td>
+<td>true</td>
+<td> Set to <strong><em>true</em></strong> to enable loop mode. </td>
+</tr>
+<tr>
+<td>loopAdditionalSlides</td>
+<td>number</td>
+<td>0</td>
+<td>2</td>
+<td> Addition number of slides that will be cloned after creating of loop. .</td>
+</tr>
+<tr>
+<td>slidesPerView</td>
+<td>number<br>or<br>'auto'</td>
+<td>1</td>
+<td>4</td>
+<td> Set numbers of slides you want to display at the same time on slider's container for <em><strong>carousel mode</strong></em>. Also supports for 'auto' value, in this case it will fit slides depending on container's width. 'auto' mode doesn't compatible with loop mode. .</td>
+</tr>
+<tr>
+<td>slidesPerGroup</td>
+<td>number</td>
+<td>1</td>
+<td>2</td>
+<td> Set numbers of slides to define and enable group sliding. Useful to use with <em><strong>carousel mode</strong></em>.</td>
+</tr>
+<tr>
+<td>calculateHeight</td>
+<td>boolean</td>
+<td>false</td>
+<td>true</td>
+<td> Set to <strong> <em>true</em> </strong> and Swiper will calculate container's height depending on slides content. Useful in repsonsive layout or when you don't know height of your slides (like with responsive images). .</td>
+</tr>
+<tr>
+<td>updateOnImagesReady</td>
+<td>boolean</td>
+<td>true</td>
+<td>false</td>
+<td> When enabled Swiper will be reinitialized after all inner images (&lt;img&gt; tags) are loaded. .</td>
+</tr>
+<tr>
+<td>releaseFormElements</td>
+<td>boolean</td>
+<td>true</td>
+<td>false</td>
+<td> This option allows to use form elements in Swiper and disable swiping on them. .</td>
+</tr>
+<tr>
+<td>watchActiveIndex</td>
+<td>boolean</td>
+<td>false</td>
+<td>true</td>
+<td> If enabled the Swipe recalculates activeIndex dynamically during touch interactions .</td>
+</tr>
+<tr>
+<td>visibilityFullFit</td>
+<td>boolean</td>
+<td>false</td>
+<td>true</td>
+<td>If enabled then "visible" slides will be only those slides that are entirely fit to the container's view. .</td>
+</tr>
+<tr>
+<td>autoResize</td>
+<td>boolean</td>
+<td>true</td>
+<td>false</td>
+<td> Set to <strong> <em>false</em> </strong> if you want to disable automatic slider resize on window resize. .</td>
+</tr>
+<tr>
+<td>resizeReInit</td>
+<td>boolean</td>
+<td>false</td>
+<td>true</td>
+<td>If "true" then Swiper will be always reinitialized with window resize. .</td>
+</tr>
+<tr>
+<td>DOMAnimation</td>
+<td>boolean</td>
+<td>true</td>
+<td>false</td>
+<td>Enable/disable custom DOM animation in browsers that don't support css transitions (like IE7-9). .</td>
+</tr>
+<tr>
+<td>resistance</td>
+<td>boolean<br> or<br> '100%'</td>
+<td>true</td>
+<td>false</td>
+<td> Set to <strong> <em>false</em> </strong> if you want to disable resistant bounds. Set to '100%' to enable nopeek resistance mode. .</td>
+</tr>
+<tr>
+<td>noSwiping</td>
+<td>boolean</td>
+<td>false</td>
+<td>true</td>
+<td> If true, then you can add "noSwipingClass" class to swiper's slide to prevent/disable swiping on this element. .</td>
+</tr>
+<tr>
+<td>preventLinks</td>
+<td>boolean</td>
+<td>true</td>
+<td>false</td>
+<td> When enabled Swiper will prevent clicks on links (&lt;a&gt;) while slider is "touching". </td>
+</tr>
+<tr>
+<td>initialSlide</td>
+<td>number</td>
+<td>2</td>
+<td>0</td>
+<td>Index number of initial slide.</td>
+</tr>
+<tr>
+<td>useCSS3Transforms</td>
+<td>boolean</td>
+<td>true</td>
+<td>false</td>
+<td> Set to false if you don't want to use css3 transforms for slides offset (could improve quality, but could reduce performance) to use wrapper's left/top properties instead.</td>
+</tr>
+<tr>
+<td class="options-group" colspan="5">Free Mode and Scroll Container</td>
+</tr>
+<tr>
+<td>freeMode</td>
+<td>boolean</td>
+<td>false</td>
+<td>true</td>
+<td>If 'true' then slides will not have fixed positions</td>
+</tr>
+<tr>
+<td>freeModeFluid</td>
+<td>boolean</td>
+<td>false</td>
+<td>true</td>
+<td> If true, then if you release the slide it will keep moving for a while </td>
+</tr>
+<tr>
+<td>scrollContainer</td>
+<td>boolean</td>
+<td>false</td>
+<td>true</td>
+<td> Set to <strong> <em>true</em> </strong> if you want to use Swiper like a scrollable area. </td>
+</tr>
+<tr>
+<td>momentumRatio</td>
+<td>number</td>
+<td>1</td>
+<td>2</td>
+<td> Higher value produces larger momentum distance after you release slider. </td>
+</tr>
+<tr>
+<td>momentumBounce</td>
+<td>boolean</td>
+<td>true</td>
+<td>false</td>
+<td> Set to <strong> <em>false</em> </strong> if you want to disable momentum bounce in free mode. </td>
+</tr>
+<tr>
+<td>momentumBounceRatio</td>
+<td>number</td>
+<td>1</td>
+<td>2</td>
+<td> Higher value produces larger momentum bounce effect. </td>
+</tr>
+<tr>
+<td class="options-group" colspan="5">Slides offset</td>
+</tr>
+<tr>
+<td>centeredSlides</td>
+<td>boolean</td>
+<td>false</td>
+<td>true</td>
+<td> If true, then active slide will be centered, not always on the left side. .</td>
+</tr>
+<tr>
+<td>offsetPxBefore</td>
+<td>number</td>
+<td>0</td>
+<td>100</td>
+<td> Slides will have specified offset value from the left "border" of wrapper .</td>
+</tr>
+<tr>
+<td>offsetPxAfter</td>
+<td>number</td>
+<td>0</td>
+<td>100</td>
+<td> Slides will have specified offset value from the right "border" of wrapper .</td>
+</tr>
+<tr>
+<td>offsetSlidesBefore</td>
+<td>number</td>
+<td>0</td>
+<td>2</td>
+<td> Slides will have offset from the left "border" of wrapper that equal to the specified number of slides' widths. Useful in responsive layouts when you don't know slide's width .</td>
+</tr>
+<tr>
+<td>offsetSlidesAfter</td>
+<td>number</td>
+<td>0</td>
+<td>2</td>
+<td> Slides will have offset from the right "border" of wrapper that equal to the specified number of slides' widths. Useful in responsive layouts when you don't know slide's width .</td>
+</tr>
+<tr>
+<td class="options-group" colspan="5">Touch/mouse interactions</td>
+</tr>
+<tr>
+<td>touchRatio</td>
+<td>number</td>
+<td>1</td>
+<td>0.8</td>
+<td>Touch ratio</td>
+</tr>
+<tr>
+<td>simulateTouch</td>
+<td>boolean</td>
+<td>true</td>
+<td>false</td>
+<td> If true, Swiper will accept mouse events like touch events (click and drag to change slides) </td>
+</tr>
+<tr>
+<td>onlyExternal</td>
+<td>boolean</td>
+<td>false</td>
+<td>true</td>
+<td> If true, then the only way to switch the slide is use of external API functions like swipeRight or swipeLeft. Useful for tabs like in example above </td>
+</tr>
+<tr>
+<td>followFinger</td>
+<td>boolean</td>
+<td>true</td>
+<td>false</td>
+<td> If false, then slider will be animated only when you release it, it will not move while you hold your finger on it </td>
+</tr>
+<tr>
+<td>grabCursor</td>
+<td>boolean</td>
+<td>false</td>
+<td>true</td>
+<td> This option may a little improve usability of your swiper users. If true, user will see the "grab" cursor when hover on Swiper. </td>
+</tr>
+<tr>
+<td>shortSwipes</td>
+<td>boolean</td>
+<td>true</td>
+<td>false</td>
+<td> Set to false if you want to disable short swipes. </td>
+</tr>
+<tr>
+<td>moveStartThreshold</td>
+<td>number</td>
+<td>false</td>
+<td>100</td>
+<td> Threshold value in px. If "touch distance" will be lower than this value then swiper will not move. </td>
+</tr>
+<tr>
+<td class="options-group" colspan="5">Navigation</td>
+</tr>
+<tr>
+<td>keyboardControl</td>
+<td>boolean</td>
+<td>false</td>
+<td>true</td>
+<td> Set to <em>true</em> to enable navigation through slides using keyboard right and left (for horizontal mode), top and borrom (for vertical mode) keyboard arrows </td>
+</tr>
+<tr>
+<td>mousewheelControl</td>
+<td>boolean</td>
+<td>false</td>
+<td>true</td>
+<td> Set to <em>true</em> to enable navigation through slides using mouse wheel. </td>
+</tr>
+<tr>
+<td class="options-group" colspan="5">Pagination</td>
+</tr>
+<tr>
+<td>pagination</td>
+<td>string or HTML Element</td>
+<td>-</td>
+<td>'.my-pagination'</td>
+<td>CSS selector of the container with pagination. Or HTML element of pagination element. </td>
+</tr>
+<tr>
+<td>paginationClickable</td>
+<td>boolean</td>
+<td>false</td>
+<td>true</td>
+<td>If true then clicking on pagination button will cause transition to appropriate slide. .</td>
+</tr>
+<tr>
+<td>paginationAsRange</td>
+<td>boolean</td>
+<td>true</td>
+<td></td>
+<td>If true then pagination buttons that are related to visible slides will have additional css class. Useful when using slidesPerView more than 1. .</td>
+</tr>
+<tr>
+<td>createPagination</td>
+<td>boolean</td>
+<td>true</td>
+<td>false</td>
+<td> if true, then Swiper will create as many SPAN elements as many slides in slider. All these spans will be created in the container specified in the "pagination" parameter. Every SPAN will have a 'swiper-pagination-switch' class, active span (of the current slide) will have a 'swiper-active-switch' class. They will be useful for styling them. </td>
+</tr>
+<tr>
+<td class="options-group" colspan="5">Namespace</td>
+</tr>
+<tr>
+<td>wrapperClass</td>
+<td>string</td>
+<td>'swiper-wrapper'</td>
+<td>'my-wrapper'</td>
+<td>CSS class of the Swiper's wrapper. See the HTML demo above</td>
+</tr>
+<tr>
+<td>slideClass</td>
+<td>string</td>
+<td>'swiper-slide'</td>
+<td>'my-slide'</td>
+<td>CSS class of the Swiper's slide. See the HTML demo above</td>
+</tr>
+<tr>
+<td>slideActiveClass</td>
+<td>string</td>
+<td>'swiper-slide-active'</td>
+<td>'my-active-slide'</td>
+<td>CSS class of the Swiper's active slide. .</td>
+</tr>
+<tr>
+<td>slideVisibleClass</td>
+<td>string</td>
+<td>'swiper-slide-visible'</td>
+<td>'my-visible-slide'</td>
+<td>CSS class of the Swiper's visible slide. .</td>
+</tr>
+<tr>
+<td>slideElement</td>
+<td>string</td>
+<td>'div'</td>
+<td>'li'</td>
+<td> Name of tag that you use for single slide. </td>
+</tr>
+<tr>
+<td>noSwipingClass</td>
+<td>string</td>
+<td>'swiper-no-swiping'</td>
+<td>'stop-swiping'</td>
+<td> CSS class of html element that will be used to prevent swiping when "noSwiping" parameter is set to true. .</td>
+</tr>
+<tr>
+<td>paginationElement</td>
+<td>string</td>
+<td>'span'</td>
+<td>'div'</td>
+<td> Name of tag that you use for single pagination button. </td>
+</tr>
+<tr>
+<td>paginationElementClass</td>
+<td>string</td>
+<td>'swiper-pagination-switch'</td>
+<td>'my-switch'</td>
+<td>CSS class of the Swiper's pagination switch. .</td>
+</tr>
+<tr>
+<td>paginationActiveClass</td>
+<td>string</td>
+<td>'swiper-active-switch'</td>
+<td>'my-active-switch'</td>
+<td>CSS class of the Swiper's active pagination switch.</td>
+</tr>
+<tr>
+<td>paginationVisibleClass</td>
+<td>string</td>
+<td>'swiper-visible-switch'</td>
+<td>'my-visible-switch'</td>
+<td>CSS class of the Swiper's visible pagination switch. .</td>
+</tr>
+<tr>
+<td class="options-group" colspan="5">Callbacks</td>
+</tr>
+<tr>
+<td>queueStartCallbacks</td>
+<td>boolean</td>
+<td>false</td>
+<td>true</td>
+<td>Set to "true" if you want to queue "slideChangeStart" callbacks. In this case callback will be fired only once during fast multiple swipes/transitions. .</td>
+</tr>
+<tr>
+<td>queueEndCallbacks</td>
+<td>boolean</td>
+<td>false</td>
+<td>true</td>
+<td>Set to "true" if you want to queue "slideChangeEnd" callbacks. In this case callback will be fired only once after fast multiple swipes/transitions. .</td>
+</tr>
+<tr>
+<td>onFirstInit</td>
+<td>function</td>
+<td>-</td>
+<td>function(swiper){ do something }</td>
+<td> Callback function, will be executed right after first initialization. </td>
+</tr>
+<tr>
+<td>onInit</td>
+<td>function</td>
+<td>-</td>
+<td>function(swiper){ do something }</td>
+<td> Callback function, will be executed right after all others initializations/re-intializations. </td>
+</tr>
+<tr>
+<td>onSwiperCreated</td>
+<td>function</td>
+<td>-</td>
+<td>function(swiper){ do something }</td>
+<td>Callback function, when Swiper is fully initialized, after creation of loop, pagination, etc. <span class="new-in">New in 2.3</span></td>
+</tr>
+<tr>
+<td>onTouchStart</td>
+<td>function</td>
+<td>-</td>
+<td>function(swiper){ do something }</td>
+<td> Callback function, will be executed when you touch the slider </td>
+</tr>
+<tr>
+<td>onTouchMove</td>
+<td>function</td>
+<td>-</td>
+<td>function(swiper){ do something }</td>
+<td> Callback function, will be executed when you touch and move finger over the slider </td>
+</tr>
+<tr>
+<td>onTouchEnd</td>
+<td>function</td>
+<td>-</td>
+<td>function(swiper){ do something }</td>
+<td> Callback function, will be executed when you release the slider </td>
+</tr>
+<tr>
+<td>onSlideReset</td>
+<td>function</td>
+<td>-</td>
+<td>function(swiper){ do something }</td>
+<td> Callback function, will be executed when you release the slide and it going to be reseted to currently active slide. Don't work with freeMode. </td>
+</tr>
+<tr>
+<td>onSlideChangeStart</td>
+<td>function</td>
+<td>-</td>
+<td>function(swiper){ do something }</td>
+<td> Callback function, will be executed in the beginning of animation to other slide (next or previous). Don't work with freeMode. </td>
+</tr>
+<tr>
+<td>onSlideChangeEnd</td>
+<td>function</td>
+<td>-</td>
+<td>function(swiper){ do something }</td>
+<td> Callback function, will be executed after animation to other slide (next or previous). Don't work with freeMode. </td>
+</tr>
+<tr>
+<td>onSlideClick</td>
+<td>function</td>
+<td>-</td>
+<td>function(swiper){ do something }</td>
+<td> Callback function, will be executed after you click any slide. </td>
+</tr>
+<tr>
+<td>onSlideTouch</td>
+<td>function</td>
+<td>-</td>
+<td>function(swiper){ do something }</td>
+<td> Callback function, will be executed right after you touch any slide. Almost the same as <em>onTouchStart</em> , but also returns <strong>.clickedSlide</strong> and <strong>.clikedSlideIndex</strong> values. </td>
+</tr>
+<tr>
+<td>onImagesReady</td>
+<td>function</td>
+<td>-</td>
+<td>function(swiper){ do something }</td>
+<td>Callback function, will be executed right after all inner images are loaded. "updateOnImagesReady" should be also set to "true". .</td>
+</tr>
+<tr>
+<td>onMomentumBounce</td>
+<td>function</td>
+<td>-</td>
+<td>function(swiper){ do something }</td>
+<td>Callback function, will be executed on momentum bounce. .</td>
+</tr>
+<tr>
+<td>onResistanceBefore</td>
+<td>function</td>
+<td>-</td>
+<td>function(swiper,p){ do something }</td>
+<td>Callback function, will be executed during negative resistance. <strong>p</strong> - returns resistance distance. .</td>
+</tr>
+<tr>
+<td>onResistanceAfter</td>
+<td>function</td>
+<td>-</td>
+<td>function(swiper,p){ do something }</td>
+<td>Callback function, will be executed during positive resistance. <strong>p</strong> - returns resistance distance. .</td>
+</tr>
+<tr>
+<td>onSetWrapperTransition</td>
+<td>function</td>
+<td>-</td>
+<td>function(swiper){ do something }</td>
+<td>Callback function, will be executed everytime when swiper starts animation. <span class="new-in">New in 2.3</span></td>
+</tr>
+<tr>
+<td>onSetWrapperTransform</td>
+<td>function</td>
+<td>-</td>
+<td>function(swiper, transform){ do something }</td>
+<td>Callback function, will be executed when swiper's wrapper change its position. <strong>p</strong> - returns object with current transform offset. <span class="new-in">New in 2.3</span></td>
+</tr>
+</tbody>
+</table>
+	</div>
+</div>
+</body>
+</html>

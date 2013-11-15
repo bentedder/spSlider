@@ -1,0 +1,15 @@
+{
+  "name": "spSlider",
+  "version": "0.0.1",
+  "author": "Ben Tedder",
+  "description": "Slider built for SharePoint 2010. Uses the iDangerous swiper plugin as the slider. Uses SPServices as the integration w/SharePoint",
+  "devDependencies": {
+    "grunt": "~0.4.0",
+    "grunt-contrib-uglify": "~0.2.0",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-cssmin": "~0.6.0",
+    "grunt-contrib-copy": "~0.4.0",
+    "express": "~3.3.0"
+  },
+  "license": "MIT"
+}
