@@ -1,5 +1,5 @@
 /*!
- spSlider Build version 0.0.1, 11-15-2013, 12:39:51 PM
+ spSlider Build version 0.0.1, 11-15-2013, 3:03:46 PM
 */
 /*
  * Swiper - Mobile Touch Slider CSS
@@ -119,15 +119,11 @@ Pagination Styles
 	/* Specific visible button style: */	
 	
 }
-body {
-	background:#efefef;
-}
-img {
-	width:300px;
-}
-
 .pagination {
 	text-align: center;
+}
+a img {
+	border:0px;
 }
 .swiper-pagination-switch {
 	display: inline-block;
@@ -143,18 +139,16 @@ img {
 	background:#ccc;
 }
 .swiper-slide {
-	background:#000;
 	position: relative;
 	text-align:center;
 	overflow:hidden;
 }
 .swiper-slide .caption {
 	position:absolute;
-	bottom:0;
+	top:200px;
 	width:95%;
 	padding:1% 2.5%;
-	background:#333;
-	color:#fff;
+	color:#333;
 	font-size:0.9em;
 }
 

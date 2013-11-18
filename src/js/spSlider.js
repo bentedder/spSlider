@@ -1,6 +1,3 @@
-/*!
- spSlider Build version 0.0.1, 11-15-2013, 3:03:46 PM
-*/
 (function($) {
 
 	$.fn.spSlider = function(options) {

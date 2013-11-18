@@ -5,15 +5,62 @@
 
 </head>
 <body>
-	<script src="dist/js/spSlider.min.js" type="text/javascript"></script>
-	<link href="dist/css/screen.min.css" rel="stylesheet" />
+	
+	<!-- include js and css files -->
+	<script src="dist/js/spSlider-libs.js" type="text/javascript"></script>
+	<script src="dist/js/spSlider.js" type="text/javascript"></script>
+	<link href="dist/css/spSlider.min.css" rel="stylesheet" />
+	
+	<!-- begin slider script and markup -->
 	<div id="slider1" class="swiper-container"></div>
 	<script>
 		$("#slider1").spSlider({
-			width: 600,
-			height: 400
+			width: 400,
+			height: 400,
+			listURL: "https://g.isb.bj.edu.cn",
+			listName: "Photos",
+			caption: false,
+			limit: 3,
+			slidesPerView: 1,
+			imageColumn: "EncodedAbsUrl"
 		});
 	</script>
+	<!-- end slider script and markup -->
+<br/>
+	<!-- begin slider script and markup -->
+	<div id="slider2" class="swiper-container"></div>
+	<script>
+		$("#slider2").spSlider({
+			width: 720,
+			height: 200,
+			listURL: "https://g.isb.bj.edu.cn",
+			listName: "Ads",
+			caption: true,
+			slidesPerView: 2,
+			captionColumn: "Title",
+			imageColumn: "EncodedAbsUrl",
+			linkColumn: "Link_x0020_to_x0020_Page"
+		});
+	</script>
+	<!-- end slider script and markup -->
+	<br/>
+	<!-- begin slider script and markup -->
+	<div id="slider3" class="swiper-container"></div>
+	<script>
+		$("#slider3").spSlider({
+			width: 360,
+			height: 200,
+			listURL: "https://g.isb.bj.edu.cn",
+			listName: "Ads",
+			caption: false,
+			limit: 10,
+			slidesPerView: 1,
+			captionColumn: "Title",
+			imageColumn: "EncodedAbsUrl",
+			linkColumn: "Link_x0020_to_x0020_Page"
+		});
+	</script>
+	<!-- end slider script and markup -->
 
 </body>
 </html>

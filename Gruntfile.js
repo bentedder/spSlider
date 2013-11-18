@@ -9,19 +9,26 @@ module.exports = function(grunt) {
         banner: '/*!\n <%= pkg.name %> Build version <%= pkg.version %>, <%= grunt.template.today("mm-dd-yyyy, h:MM:ss TT") %>\n*/\n',
         separator: ";"
       },
-      sliderpkg: {
+      libs: {
         src: [
               "src/js/jquery-1.10.2.js",
               "src/js/idangerous.swiper-2.3.js",
-              "src/js/slider.js"
-       		 	
+              "src/js/jquery.SPServices-0.7.2.js"       		 	
             ],
-        dest: "dist/js/<%= pkg.name %>-pkg.js"
+        dest: "dist/js/<%= pkg.name %>-libs.js"
       },
       slider: {
-        src: "src/js/slider.js",
+        src: "src/js/spSlider.js",
         dest: "dist/js/spSlider.js"
       },
+	  sliderpackage: {
+        src: [
+              "src/js/jquery-1.10.2.js",
+              "src/js/idangerous.swiper-2.3.js",
+              "src/js/jquery.SPServices-0.7.2.js",		 	
+              "src/js/spSlider.js"       		 	
+            ],
+        dest: "dist/js/<%= pkg.name %>-pkg.js"	  },
 	    css: {
         src: [
             "src/css/idangerous.swiper.css",
@@ -40,8 +47,9 @@ module.exports = function(grunt) {
       },
       dist: {
         files: {
-          "dist/js/<%= pkg.name %>-pkg.min.js": ["<%= concat.sliderpkg.dest %>"],
-          "dist/js/spSlider.min.js": ["<%= concat.slider.dest %>"]
+          "dist/js/<%= pkg.name %>-libs.min.js": ["<%= concat.libs.dest %>"],
+          "dist/js/spSlider.min.js": ["<%= concat.slider.dest %>"],
+          "dist/js/spSlider-pkg.min.js": ["<%= concat.sliderpackage.dest %>"]
         }
       }
     },
