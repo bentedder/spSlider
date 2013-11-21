@@ -1,7 +1,5 @@
 ***
-
 Today we're going to cover how to build a jQuery plugin that creates a slider for SharePoint.
-
 ***
 
 This post is going to cover my build process from beginning to end on how I created a re-useable (even multiple per page) slider for use in SharePoint (specifically SharePoint 2010).
@@ -124,8 +122,8 @@ Ok, so *now* we have a fully-functioning plugin. We can officially go and test t
 }(jQuery));
 ```
 
-Implement plugin in HTML
-------------------------
+Step 4: Implement plugin in HTML
+--------------------------------
 Now, in index.html we need to instantiate this plugin. So right beneath the `<div>` in the index.html we create a new script tag.
 
 ```html
@@ -152,8 +150,8 @@ Let's make sure and reference it in index.html:
 
 Go preview index.html in the browser and you should see a box with a red outline that is 200px wide and 100px tall. Congrats! You just made a jQuery plugin! But that's just the beginning.
 
-Importing dynamic data
-----------------------
+Step 5: Importing dynamic data
+------------------------------
 This plugin is great...but doesn't do anything. We need some data. For right now we're not going to integrate SharePoint. We're going to fake it. I always find it's easier to create the UI separate from the data and then bringing in real data later. So beneath our plugin function (but still within the self-contained function in spSlider.js) we can create a new function and assign it to a variable called **getData**.
 
 ```javascript
@@ -207,8 +205,8 @@ If you check index.html in the browser again, you should see an array with 3 obj
 
 Go get 3 images and put them in the **img/** folder and make sure they're the same size. Name them img1.png, img2.png, and img3.png (to align with our data object we created earlier).
 
-Creating DOM objects dynamically from data
-------------------------------------------
+Step 6: Creating DOM objects dynamically from data
+--------------------------------------------------
 Above the **getData** function we're going to create another function called **formatData**. This function will iterate through our data and create an html string that is suitable for adding to the DOM. We'll go in depth with a few of things a bit later:
 
 ```
@@ -292,8 +290,8 @@ Go preview index.html in the browser. You'll now see that our div contains 3 ima
 
 The next step is to apply a slider that allows us to swipe back and forth between these slides.
 
-Applying the slider
--------------------
+Step 7: Applying the slider
+---------------------------
 Let's take a step back. We're not writing a slider plugin. We're writing a plugin that allows us to view SharePoint data in a slider format. So that means we need to actually get a slider that works well, and wrap it in our functions. For this tutorial I've chosen the awesome [iDangerous Swiper](idangero.us/sliders/swiper/api.php). We're going to download the source files for that swiper and integrate it with our plugin.
 
 iDangerous swiper comes with two files we need:
@@ -410,8 +408,8 @@ Before we check out our index.html, lets add a bit of styling to style.css. Chec
 
 Now if you go and preview index.html you should see a swipeable div of photos! We're not done, but we've got a nice functioning slideshow. At this point it should be noted that this wrapper plugin can be used with **any** slider/swiper and with **any** database (not just SharePoint). All that needs to be replaced are the getData() function and applySlider() function in order to add all sorts of different functionality. Of course, for this tutorial the next step is to add SharePoint capability to the slider.
 
-Integrating SharePoint
-----------------------
+Step 8: Integrating SharePoint
+------------------------------
 We're going to be focusing on the getData() function for this part of the tutorial. But before we do, first go and grab [SPServices](http://spservices.codeplex.com) , put it in the **js/** folder, and reference it right above the reference to spSlider.js in index.html.
 
 ```html
@@ -469,8 +467,8 @@ Also, note that the imgColumn has been set to **EncodedAbsUrl**. This is SharePo
 
 At this point, the plugin will grab data from SharePoint and put it in a slideshow. If you set the limit to something nice and small (like 5) it won't take too long to wait for your images to appear. However, if you have a lot of images it would probably be better to load things asynchronously. We'll cover that a bit later. But right now we're going to talk about how to integrate this plugin into an actual SharePoint site. This will first include a quick intro on how I'm using Grunt to package everything up nice and small.
 
-Packaging the project
----------------------
+Step 9: Packaging the project
+-----------------------------
 I'm not going to go into great detail here, as all of the files are included in the repo and you can look through them to see how things are setup.
 
 * Install Node.js
@@ -481,15 +479,15 @@ I'm not going to go into great detail here, as all of the files are included in 
 When the project has been grunted, it will create a few packaged files inside a **dist/** folder. This is especially important for the javascript. The file spSlider-pkg.min.js includes all of the libraries used. Also, grunting the project produces a minified CSS file that includes both CSS files used. It also copies the image files from the image folder (for the arrows).
 
 
-Installing the plugin for end users
------------------------------------
+Step 10: Installing the plugin for end users
+--------------------------------------------
 In order to use this plugin throughout your whole SharePoint site, you'll want to upload it to a central place. Because SPServices is amazing, you'll be able to query any list from anywhere inside the site collection.
 
-**Step 1: Create a document library**
+**A: Create a document library**
 
 Create a new document library and put the **dist/** folder in it, with all of its subfolders and files.
 
-**Step 2: Create a .txt file for each instantiation**
+**B: Create a .txt file for each instantiation**
 
 Create a file called slider.txt. In that file, we're basically going to put some html:
 
@@ -513,13 +511,12 @@ Create a file called slider.txt. In that file, we're basically going to put some
 <!-- end slider script and markup -->
 ```
 
-**Step 3: Put on the page**
+**C: Put on the page**
 
 Edit the page that you would like to put the slider on, and add a new Content Editor WebPart (CEWP). Click "Edit Webpart" in the little menu on the top right of the webpart. Then put the direct link to that text file you just created and click OK. Now the slider should appear on the page!
 
 So, moving forward, a new .txt file should be created for each user. It doesn't have to reside in the same folder as the **dist/** folder, but it must have an absolute reference to those files.
 
 
-Making things asynchronous
---------------------------
-
+Bonus: Making things asynchronous
+---------------------------------
