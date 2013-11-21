@@ -8,9 +8,7 @@
 			height: 	300,
 			listURL: 	"",
 			listName: 	"",
-			limit: 0,
-			categories: [],
-			// all options for slider plugin are dynamic
+			limit: 0
 		}, options);
 		
 		var newHeight = settings.height;
