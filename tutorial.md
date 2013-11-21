@@ -43,6 +43,7 @@ Step 3: Create the jQuery Plugin
 --------------------------------
 
 **Create Files**
+
 Things will begin to get more intense from here. First, go grab jQuery (1.10.2 for this tutorial) and drop it in the **js/** folder. Then create a new file inside that folder called **spSlider.js**. Now let's go over to index.html and reference those two scripts:
 
 ```html
@@ -55,6 +56,7 @@ Things will begin to get more intense from here. First, go grab jQuery (1.10.2 f
 ...
 ```
 **Create our base plugin**
+
 Open up spSlider.js and let's start creating! Creating a jQuery plugin is not as daunting as it sounds. In fact, it's quite straightforward. Here's the basic construct:
 
 ```javascript
@@ -75,6 +77,7 @@ $.fn.spSlider = function(options) {
 Take note of a few things here. First, we're creating the function with $.fn.spSlider. This is jQuery syntax for creating plugins. Next, we assign a function and pass an **options** parameter. These are the options the user will pass when instantiating the plugin. Finally, we **return this;**. This is important in order to preserve jQuery chaining of plugins.
 
 **Read and set default options**
+
 When the user instantiates the plugin, they will be able to pass options. We want to listen for those options, and in some cases set defaults. So we'll create a **settings** variable that is an extension of the options passed:
 
 ```javascript
@@ -141,3 +144,34 @@ Let's make sure and reference it in index.html:
 ```html
 <link href="css/style.css" rel="stylesheet" />
 ```
+
+***
+**Catchup**
+
+Make sure everything looks like it should:
+
+index.html
+```html
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SharePoint Slider</title>
+	<script src="js/jquery-1.10.2.js" type="text/javascript"></script>
+	<script src="js/spSlider.js"></script>
+	<link href="css/style.css" rel="stylesheet" />
+</head>
+<body>
+	
+	<div id="test"></div>
+
+	<script>
+		$("#test").spSlider({
+			width:300,
+			height:250
+		});
+	</script>
+
+</body>
+</html>
+```
+***
