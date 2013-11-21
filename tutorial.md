@@ -285,5 +285,241 @@ $.fn.spSlider = function(options) {
 
 	return self;
 
-	};
+};
 ```
+
+Go preview index.html in the browser. You'll now see that our div contains 3 images, one after the other. We're getting closer!
+
+The next step is to apply a slider that allows us to swipe back and forth between these slides.
+
+Applying the slider
+-------------------
+Let's take a step back. We're not writing a slider plugin. We're writing a plugin that allows us to view SharePoint data in a slider format. So that means we need to actually get a slider that works well, and wrap it in our functions. For this tutorial I've chosen the awesome [iDangerous Swiper](idangero.us/sliders/swiper/api.php). We're going to download the source files for that swiper and integrate it with our plugin.
+
+iDangerous swiper comes with two files we need:
+* idangerous.swiper-2.3.js
+* idangerous.swiper.css
+
+Put these files in their respective places (js/ and css/). Then go and reference them in index.html.
+
+```html
+<head>
+	<title>SharePoint Slider</title>
+	<script src="js/jquery-1.10.2.js" type="text/javascript"></script>
+	<script src="js/idangerous.swiper-2.3.js" type="text/javascript"></script>
+	<script src="js/spSlider.js"></script>
+
+	<link href="css/idangerous.swiper.css" rel="stylesheet" />
+	<link href="css/style.css" rel="stylesheet" />
+</head>
+```
+
+While you have index.html open, go down to the `div` and add a class of *swiper-container*. This is what iDangerous needs in order to run the slider.
+
+```html
+<div id="text" class="swiper-container"></div>
+```
+
+Open up **spSlider.js** and lets get to work integrating the slider.
+
+Create a new function above formatData called **applySlider**. This function will accept two parameters: the element it is being applied to, and the settings. All we're going to do is add a bit of functionality, and then just call the swiper on our element.
+
+```javascript
+var applySlider = function(el, settings) {
+
+	// set the width and height of the container and slides
+	el.children(".swiper-container").height(settings.height).width(settings.width);
+	el.children(".swiper-slide").height(settings.height).width(settings.width);
+
+	// options for the swiper that you want to set default
+	var hardcodedOptions = {
+		keyboardControl: true,
+		loop: true
+	};
+
+	// extend the user's settings with these options
+	$.extend(settings, hardcodedOptions);
+
+	// call the swiper plugin on the element we passed
+	var swiper = el.swiper(settings);
+
+	// set click handlers on the navigation arrows
+	el.children(".swipe-nav.left").click(function() {
+		swiper.swipePrev();
+	});
+	el.children(".swipe-nav.right").click(function() {
+		swiper.swipeNext();
+	});
+};
+```
+
+So our function is set. Now we need to call that function from within our plugin.
+
+```javascript
+$.fn.spSlider = function(options) {
+	
+	...
+
+	var data = getData(settings);
+	
+	var slides = formatData(data, settings);
+
+	self.html(slides);
+
+	// apply the slider and then return it
+	var swiper = applySlider(self, settings);
+
+	return swiper;
+};
+```
+
+**Apply some CSS**
+
+Before we check out our index.html, lets add a bit of styling to style.css. Check out the source files of this repo and you'll find right.png and left.png which will replace the 'left' and 'right' links with nice arrows.
+
+```css
+.swiper-slide {
+	position:relative;
+	text-align:center;
+	overflow:hidden;
+}
+
+.swipe-nav {
+	position: absolute;
+	top:40%;
+	background:#000;
+	text-indent:-9999px;
+	height:40px;
+	width:35px;
+	z-index:9999;
+	cursor:pointer;
+}
+
+.swipe-nav.right {
+	right:0;
+	background: transparent url('../img/right.png') no-repeat center center;
+}
+.swipe-nav.left {
+	left:0;
+	background: transparent url('../img/left.png') no-repeat center center;
+}
+.swipe-nav:hover {
+	background-color:#333;
+}
+```
+
+Now if you go and preview index.html you should see a swipeable div of photos! We're not done, but we've got a nice functioning slideshow. At this point it should be noted that this wrapper plugin can be used with **any** slider/swiper and with **any** database (not just SharePoint). All that needs to be replaced are the getData() function and applySlider() function in order to add all sorts of different functionality. Of course, for this tutorial the next step is to add SharePoint capability to the slider.
+
+Integrating SharePoint
+----------------------
+We're going to be focusing on the getData() function for this part of the tutorial. But before we do, first go and grab [SPServices](http://spservices.codeplex.com) , put it in the **js/** folder, and reference it right above the reference to spSlider.js in index.html.
+
+```html
+<head>
+	<title>SharePoint Slider</title>
+	<script src="js/jquery-1.10.2.js" type="text/javascript"></script>
+	<script src="js/idangerous.swiper-2.3.js" type="text/javascript"></script>
+	<script src="js/jquery.SPServices-0.7.2.js" type="text/javascript"></script>
+	<script src="js/spSlider.js"></script>
+
+	<link href="css/idangerous.swiper.css" rel="stylesheet" />
+	<link href="css/style.css" rel="stylesheet" />
+</head>
+```
+
+So in getData() we're going to create a new SPServices call. Then we'll store the data in a variable, and return it. For now we're going to keep things **synchronous**. But later on I'll show you a method of asynchronously loading the data into our slider.
+
+```javascript
+var getData = function(settings) {
+	var data = [];
+	
+	$().SPServices({
+		operation: "GetListItems",
+		async: false,
+		webURL: settings.listURL,
+		listName: settings.listName,
+		CAMLRowLimit: settings.limit,
+		CAMLViewFields: "<ViewFields Properties='True' />",
+		completefunc: function(xData, Status) {
+			data = $(xData.responseXML).SPFilterNode("z:row").SPXmlToJSON({
+				includeAllAttrs: true,
+				removeOws: true
+			});
+		}
+	});
+
+	return data;
+};
+```
+One of the first things to pay attention to here is the settings.listURL and settings.listName in the function. These are settings the user needs to pass when calling the plugin.
+
+```javscript
+$("#test").spSlider({
+	width:200,
+	height:100,
+	listURL: "https://sharepoint/subsite",
+	listName: "Pictures",
+	limit: 5,
+	imgColumn: "EncodedAbsUrl"
+});
+```
+If you're familiar with SPServices, then these two items will make sense. They are just the URL where the list is residing, and the name of the list itself. **Fair warning:** If you create lists with spaces or special characters in the name it will become very difficult to figure out the exact name of the list. You've been warned!
+
+Also, note that the imgColumn has been set to **EncodedAbsUrl**. This is SharePoint's default name for the image column in a Picture Library. I advise using this plugin with a picture library, as it will require no customization on your part.
+
+At this point, the plugin will grab data from SharePoint and put it in a slideshow. If you set the limit to something nice and small (like 5) it won't take too long to wait for your images to appear. However, if you have a lot of images it would probably be better to load things asynchronously. We'll cover that a bit later. But right now we're going to talk about how to integrate this plugin into an actual SharePoint site. This will first include a quick intro on how I'm using Grunt to package everything up nice and small.
+
+Packaging the project
+---------------------
+I'm not going to go into great detail here, as all of the files are included in the repo and you can look through them to see how things are setup.
+
+* Install Node.js
+* Install Grunt to your project
+* Create a package.json file and a Gruntfile.js (see the repo)
+* grunt the project
+
+When the project has been grunted, it will create a few packaged files inside a **dist/** folder. This is especially important for the javascript. The file spSlider-pkg.min.js includes all of the libraries used. Also, grunting the project produces a minified CSS file that includes both CSS files used. It also copies the image files from the image folder (for the arrows).
+
+
+Installing the plugin for end users
+-----------------------------------
+In order to use this plugin throughout your whole SharePoint site, you'll want to upload it to a central place. Because SPServices is amazing, you'll be able to query any list from anywhere inside the site collection.
+
+**Step 1: Create a document library**
+
+Create a new document library and put the **dist/** folder in it, with all of its subfolders and files.
+
+**Step 2: Create a .txt file for each instantiation**
+
+Create a file called slider.txt. In that file, we're basically going to put some html:
+
+```html
+<!-- include js and css files -->
+<script src="https://sharepoint/subsite/slider/dist/js/spSlider-pkg.min.js" type="text/javascript"></script>
+<link href="https://sharepoint/subsite/slider/dist/css/spSlider.min.css" rel="stylesheet" />
+
+<!-- begin slider script and markup -->
+<div id="slider1" class="swiper-container"></div>
+<script>
+	$("#slider1").spSlider({
+		width: 400,
+		height: 200,
+		listURL: "https://sharepoint/community",
+		listName: "Photos",
+		limit: 3,
+		imageColumn: "EncodedAbsUrl"
+	});
+</script>
+<!-- end slider script and markup -->
+```
+
+**Step 3: Put on the page**
+
+Edit the page that you would like to put the slider on, and add a new Content Editor WebPart (CEWP). Click "Edit Webpart" in the little menu on the top right of the webpart. Then put the direct link to that text file you just created and click OK. Now the slider should appear on the page!
+
+So, moving forward, a new .txt file should be created for each user. It doesn't have to reside in the same folder as the **dist/** folder, but it must have an absolute reference to those files.
+
+
+Making things asynchronous
+--------------------------
+
