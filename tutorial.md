@@ -117,10 +117,15 @@ Ok, so *now* we have a fully-functioning plugin. We can officially go and test t
 
 		self.height(settings.height);
 		self.width(settings.width);
+
+		return self;
+
 	};
 }(jQuery));
 ```
 
+Implement plugin in HTML
+------------------------
 Now, in index.html we need to instantiate this plugin. So right beneath the `<div>` in the index.html we create a new script tag.
 
 ```html
@@ -142,36 +147,143 @@ div {
 
 Let's make sure and reference it in index.html:
 ```html
-<link href="css/style.css" rel="stylesheet" />
-```
-
-***
-**Catchup**
-
-Make sure everything looks like it should:
-
-index.html
-```html
-<!DOCTYPE html>
-<html>
-<head>
-	<title>SharePoint Slider</title>
-	<script src="js/jquery-1.10.2.js" type="text/javascript"></script>
-	<script src="js/spSlider.js"></script>
 	<link href="css/style.css" rel="stylesheet" />
-</head>
-<body>
-	
-	<div id="test"></div>
-
-	<script>
-		$("#test").spSlider({
-			width:300,
-			height:250
-		});
-	</script>
-
-</body>
-</html>
 ```
-***
+
+Go preview index.html in the browser and you should see a box with a red outline that is 200px wide and 100px tall. Congrats! You just made a jQuery plugin! But that's just the beginning.
+
+Importing dynamic data
+----------------------
+This plugin is great...but doesn't do anything. We need some data. For right now we're not going to integrate SharePoint. We're going to fake it. I always find it's easier to create the UI separate from the data and then bringing in real data later. So beneath our plugin function (but still within the self-contained function in spSlider.js) we can create a new function and assign it to a variable called **getData**.
+
+```javascript
+	$.fn.spSlider = function(options){
+		// plugin we create earlier
+	};
+
+	var getData = function(settings) {
+
+		var data = [
+			{
+				img: "img/img1.png",
+				caption: "test caption",
+				link: "http://www.amazon.com"
+			},
+			{
+				img: "img/img2.png",
+				caption: "another caption",
+				link: "http://www.ebay.com"
+			},
+			{
+				img: "img/img3.png",
+				caption: "",
+				link: "http://www.facebook.com"
+			}
+			
+		];
+
+		return data;
+	
+	};
+```
+
+So this function simply returns an array of objects when it is called. Eventually this function will actually return an array of objects from SharePoint, but for now we'll stick with this to keep it speedy.
+
+In **spSlider.js** we need to get this data and pass it into the element the plugin is called from.
+
+```javascript
+$.fn.spSlider = function(options){
+
+	...
+
+	var data = getData(settings);
+	console.log(data);
+
+	return self;
+};
+```
+
+If you check index.html in the browser again, you should see an array with 3 objects appear in the console. This confirms our data is being piped in correctly. Now let's put it into the DOM.
+
+Go get 3 images and put them in the **img/** folder and make sure they're the same size. Name them img1.png, img2.png, and img3.png (to align with our data object we created earlier).
+
+Creating DOM objects dynamically from data
+------------------------------------------
+Above the **getData** function we're going to create another function called **formatData**. This function will iterate through our data and create an html string that is suitable for adding to the DOM. We'll go in depth with a few of things a bit later:
+
+```
+var formatData = function(data, settings) {
+	var i, dataLength = data.length;
+
+	// create pagination links
+	var pagination = "<a class='swipe-nav left'>left</a><a class='swipe-nav right'>right</a>";
+
+	// create a wrapper for our slides
+	var slides = "<div class='swiper-wrapper'>";
+
+	// iterate through the data
+	for(i = 0; i < dataLength; i++) {
+
+		// assign data to variables from the user's input
+		var link = data[i][settings.linkColumn] || "";
+		var img = data[i][settings.imgColumn] || "";
+		var caption = data[i][settings.captionColumn] || "";
+		
+		// create a new div for each slide
+		slides += "<div class='swiper-slide'>";
+
+		slides += "<a href='" + data[i].link + "'><img src='" + data[i].img + "' /></a><br/><span>" + data[i].caption + "</span>";
+
+		slides += "</div>";
+	}
+	// close out the wrapper div
+	slides += "</div>";
+
+	// concatenate the pagination and the slides and return the result
+	var result = pagination + slides;
+
+	return result;
+};
+```
+So, that's a big function, and has a lot of HTML in it. Arguably, you could move this html into a template and include it some other way. But for now this works. Check out the comments to see what we're doing, but basically we're just creating a slide for each slide in the data.
+
+You may have noticed some settings that the user hasn't provided yet. Now when the user instantiates the plugin, they will pass in a few more things:
+
+```javascript
+$("#test").spSlider({
+	width:200,
+	height:100,
+	linkColumn: "link",
+	imgColumn: "img",
+	captionColumn: "caption"
+});
+```
+The reason we do this is because SharePoint itself has some funky names for columns (especially the image column). So we can just mask them for the function, and let the user provide the actual column name. This way it's flexible enough to work in different scenarios.
+
+Now we need to put this data into the DOM. So back in our plugin, we need to add a few lines. We're already storing the data in a variable. Now we need to pass that data, and our settings, to the formatData function. This will return the HTML string, which we'll assign to a variable called **slides**. Then we'll simply use jQuery to put the content of **slides** into the html of the element. 
+
+*Note: we will entirely replace anything else in the div that is calling the plugin.*
+
+```javascript
+$.fn.spSlider = function(options) {
+
+	var self = this;
+
+	var settings = $.extend({
+		width: 400,
+		height: 300
+	}, options);
+
+	self.height(settings.height);
+	self.width(settings.width);
+
+	var data = getData(settings);
+	
+	var slides = formatData(data, settings);
+
+	self.html(slides);
+
+	return self;
+
+	};
+```
