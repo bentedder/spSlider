@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <style type="text/css">
+  body{
+      margin: 0 auto;
+      font-family: Georgia, Palatino, serif;
+      color: #444444;
+      line-height: 1;
+  }
+  #wrapper {
+    width:600px;
+    margin: 0 auto;
+  }
+  h1, h2, h3, h4 {
+      color: #111111;
+      font-weight: 400;
+  }
+  h1, h2, h3, h4, h5, p {
+      margin-bottom: 24px;
+      padding: 0;
+  }
+  h1 {
+      font-size: 48px;
+      margin-bottom:0px;
+  }
+  h2 {
+      font-size: 26px;
+      /* The bottom margin is small. It's designed to be used with gray meta text
+       * below a post title. */
+      margin: 0;
+  }
+  h3 {
+      font-size: 34px;
+      margin-top: 40px;
+      border-bottom: 1px solid #ccc;
+      padding: 5px;
+      color: #b80000;
+  }
+  h4 {
+      font-size: 21px;
+  }
+  h5 {
+      font-size: 18px;
+  }
+  a {
+      color: #0099ff;
+      margin: 0;
+      padding: 0;
+      vertical-align: baseline;
+  }
+  a:hover {
+      text-decoration: none;
+      color: #ff6600;
+  }
+  ul, ol {
+      padding: 0;
+      margin: 0;
+  }
+  li {
+      line-height: 24px;
+      list-style-position: inside;
+  }
+  li ul, li ul {
+      margin-left: 24px;
+  }
+  p, ul, ol {
+      font-size: 16px;
+      line-height: 24px;
+      max-width: 540px;
+  }
+  pre {
+      padding: 10px;
+      max-width: 800px;
+      white-space: pre-wrap;
+      background:#efefef;
+      overflow: auto;
+  }
+  code {
+      font-family: Consolas, Monaco, Andale Mono, monospace;
+      line-height: 1.5;
+      font-size: 13px;
+      background: #efefef;
+      border: 1px solid #ccc;
+  }
+  pre code {
+    border: 0px;
+    background: none;
+  }
+  aside {
+      display: block;
+      float: right;
+      width: 390px;
+  }
+  blockquote {
+      border-left:.5em solid #eee;
+      padding: 0 2em;
+      margin-left:0;
+      max-width: 476px;
+  }
+  blockquote  cite {
+      font-size:14px;
+      line-height:20px;
+      color:#bfbfbf;
+  }
+  blockquote cite:before {
+      content: '\2014 \00A0';
+  }
+  
+  blockquote p {  
+      color: #666;
+      max-width: 460px;
+  }
+  hr {
+      width: 100%;
+      text-align: left;
+      margin: 0 auto 0 0;
+      border: 1px solid #ccc;
+  }
+  
+  /* Code below this line is copyright Twitter Inc. */
+  
+  button,
+  input,
+  select,
+  textarea {
+    font-size: 100%;
+    margin: 0;
+    vertical-align: baseline;
+    *vertical-align: middle;
+  }
+  button, input {
+    line-height: normal;
+    *overflow: visible;
+  }
+  button::-moz-focus-inner, input::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+  }
+  button,
+  input[type="button"],
+  input[type="reset"],
+  input[type="submit"] {
+    cursor: pointer;
+    -webkit-appearance: button;
+  }
+  input[type=checkbox], input[type=radio] {
+    cursor: pointer;
+  }
+  /* override default chrome & firefox settings */
+  input:not([type="image"]), textarea {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+  }
+  
+  input[type="search"] {
+    -webkit-appearance: textfield;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+  }
+  input[type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none;
+  }
+  label,
+  input,
+  select,
+  textarea {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: normal;
+    margin-bottom: 18px;
+  }
+  input[type=checkbox], input[type=radio] {
+    cursor: pointer;
+    margin-bottom: 0;
+  }
+  input[type=text],
+  input[type=password],
+  textarea,
+  select {
+    display: inline-block;
+    width: 210px;
+    padding: 4px;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 18px;
+    height: 18px;
+    color: #808080;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+  }
+  select, input[type=file] {
+    height: 27px;
+    line-height: 27px;
+  }
+  textarea {
+    height: auto;
+  }
+  
+  /* grey out placeholders */
+  :-moz-placeholder {
+    color: #bfbfbf;
+  }
+  ::-webkit-input-placeholder {
+    color: #bfbfbf;
+  }
+  
+  input[type=text],
+  input[type=password],
+  select,
+  textarea {
+    -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+    -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+    transition: border linear 0.2s, box-shadow linear 0.2s;
+    -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  input[type=text]:focus, input[type=password]:focus, textarea:focus {
+    outline: none;
+    border-color: rgba(82, 168, 236, 0.8);
+    -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);
+    -moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);
+  }
+  
+  /* buttons */
+  button {
+    display: inline-block;
+    padding: 4px 14px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+    background-color: #0064cd;
+    background-repeat: repeat-x;
+    background-image: -khtml-gradient(linear, left top, left bottom, from(#049cdb), to(#0064cd));
+    background-image: -moz-linear-gradient(top, #049cdb, #0064cd);
+    background-image: -ms-linear-gradient(top, #049cdb, #0064cd);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #049cdb), color-stop(100%, #0064cd));
+    background-image: -webkit-linear-gradient(top, #049cdb, #0064cd);
+    background-image: -o-linear-gradient(top, #049cdb, #0064cd);
+    background-image: linear-gradient(top, #049cdb, #0064cd);
+    color: #fff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    border: 1px solid #004b9a;
+    border-bottom-color: #003f81;
+    -webkit-transition: 0.1s linear all;
+    -moz-transition: 0.1s linear all;
+    transition: 0.1s linear all;
+    border-color: #0064cd #0064cd #003f81;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  }
+  button:hover {
+    color: #fff;
+    background-position: 0 -15px;
+    text-decoration: none;
+  }
+  button:active {
+    -webkit-box-shadow: inset 0 3px 7px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0 3px 7px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 3px 7px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+  button::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+  }
+  
+  </style>
+</head>
+<body>
+<div id="wrapper">
+<h1>spSlider.js</h1>
+<h2>a custom jQuery Plugin for SharePoint</h2>
+<p>by <a href="http://www.bentedder.com">bentedder</a></p>
+<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<h4>Today we’re going to cover how to build a jQuery plugin that creates a slider for SharePoint.</h4>
+<p>This post is going to cover my build process from beginning to end on how to create a re-useable (even multiple per page) slider for use in SharePoint (specifically SharePoint 2010).</p>
+<p>The Goal: Create a slider that is easy for power users of SharePoint to use in their pages.</p>
+<hr />
+<p><strong>Download:</strong> the <a href="http://github.com/bentedder/spSlider">github repo for spSlider</a> has this page and all source files. Or just <a href="https://github.com/bentedder/spSlider/archive/master.zip">download the .zip file</a>.</p>
+<p><strong>Videos:</strong> the video screencasts for creating the spSlider are sprinkled throughout this document, or can be found on this <a href="http://www.youtube.com/playlist?list=PLGRID-G6fhtebwaUQxg4W5MSfjTA-F9wB">YouTube playlist</a>.</p>
+<hr />
+<h3>Step 1: Setup the project</h3>
+<p>Let’s create our basic structure for the project:</p>
+<ul>
+<li>css/</li>
+<li>img/</li>
+<li>js/</li>
+<li>index.html</li>
+</ul>
+<p>That’s it! We’ll use this structure to build out our slider. Then when we’re done I’ll show you how to package everything up and include it in SharePoint.</p>
+<h3>Step 2: Create the HTML page</h3>
+<p>Open up index.html and let’s start editing:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span>
+<span class="kw">&lt;html&gt;</span>
+<span class="kw">&lt;head&gt;</span>
+    <span class="kw">&lt;title&gt;</span>SharePoint Slider<span class="kw">&lt;/title&gt;</span>
+<span class="kw">&lt;/head&gt;</span>
+<span class="kw">&lt;body&gt;</span>
+    
+    <span class="kw">&lt;div</span><span class="ot"> id=</span><span class="st">&quot;test&quot;</span><span class="kw">&gt;&lt;/div&gt;</span>
+
+<span class="kw">&lt;/body&gt;</span>
+<span class="kw">&lt;/html&gt;</span></code></pre>
+<iframe width="560" height="315" src="http://www.youtube.com/embed/T4iPnh-qago?rel=0" frameborder="0" allowfullscreen></iframe>
+
+
+<p>As you can see so far, this project is super simple. That’s the goal. We want all the logic hidden from the end user. Remember, this project is built so that a power user of SharePoint can simply import one file into a Content Editor Webpart and have full slideshow features and functionality.</p>
+<h3>Step 3: Create the jQuery Plugin</h3>
+<p><strong>Create Files</strong></p>
+<p>Things will begin to get more intense from here. First, go grab jQuery (1.10.2 for this tutorial) and drop it in the <strong>js/</strong> folder. Then create a new file inside that folder called <strong>spSlider.js</strong>. Now let’s go over to index.html and reference those two scripts:</p>
+<pre class="sourceCode html"><code class="sourceCode html">...
+<span class="kw">&lt;head&gt;</span>
+    <span class="kw">&lt;title&gt;</span>SharePoint Slider<span class="kw">&lt;/title&gt;</span>
+    <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;js/jquery-1.10.2.js&quot;</span><span class="ot"> type=</span><span class="st">&quot;text/javascript&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+    <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;js/spSlider.js&quot;</span><span class="ot"> type=</span><span class="st">&quot;text/javascript&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+<span class="kw">&lt;/head&gt;</span>
+...</code></pre>
+<p><strong>Create our base plugin</strong></p>
+<p>Open up spSlider.js and let’s start creating! Creating a jQuery plugin is not as daunting as it sounds. In fact, it’s quite straightforward. Here’s the basic construct:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">(<span class="kw">function</span>($) {
+
+}(jQuery));</code></pre>
+<p>Everything inside that self-contained function will now have access to jQuery. Once inside this function, we want to create the actual plugin. Since I’m calling this plugin <strong>spSlider</strong>, here’s my plugin code:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="ot">$</span>.<span class="ot">fn</span>.<span class="fu">spSlider</span> = <span class="kw">function</span>(options) {
+    <span class="co">// put plugin logic here</span>
+    <span class="kw">return</span> <span class="kw">this</span>;
+};</code></pre>
+<p>Take note of a few things here. First, we’re creating the function with $.fn.spSlider. This is jQuery syntax for creating plugins. Next, we assign a function and pass an <strong>options</strong> parameter. These are the options the user will pass when instantiating the plugin. Finally, we <strong>return this;</strong>. This is important in order to preserve jQuery chaining of plugins.</p>
+<p><strong>Read and set default options</strong></p>
+<p>When the user instantiates the plugin, they will be able to pass options. We want to listen for those options, and in some cases set defaults. So we’ll create a <strong>settings</strong> variable that is an extension of the options passed:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="ot">$</span>.<span class="ot">fn</span>.<span class="fu">spSlider</span> = <span class="kw">function</span>(options) {
+
+    <span class="kw">var</span> settings = <span class="ot">$</span>.<span class="fu">extend</span>({
+        <span class="dt">width</span>: <span class="dv">400</span>,
+        <span class="dt">height</span>: <span class="dv">300</span>
+    }, options);
+
+    <span class="kw">return</span> <span class="kw">this</span>;
+});</code></pre>
+<p>At this point we have a fully-functioning plugin. But it doesn’t do anything. So, to test it out, what we’re going to do is set the width and height of the plugin based on the parameters the user has passed (if any). First, I’m going to store the value of <strong>this</strong> to <strong>self</strong> (my standard practice inside functions) so that we always have access to <strong>this</strong> and know what it is. Then we’re going to set the width and height of <strong>self</strong> (this). We’re still working inside of the plugin function here.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">...
+    <span class="ot">self</span>.<span class="fu">height</span>(<span class="ot">settings</span>.<span class="fu">height</span>);
+    <span class="ot">self</span>.<span class="fu">width</span>(<span class="ot">settings</span>.<span class="fu">width</span>);
+...</code></pre>
+<p>Ok, so <em>now</em> we have a fully-functioning plugin. We can officially go and test things out. Your spSlider.js should look like this:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">(<span class="kw">function</span>($) {
+
+    <span class="ot">$</span>.<span class="ot">fn</span>.<span class="fu">spSlider</span> = <span class="kw">function</span>(options) {
+
+        <span class="kw">var</span> self = <span class="kw">this</span>;
+
+        <span class="kw">var</span> settings = <span class="ot">$</span>.<span class="fu">extend</span>({
+            <span class="dt">width</span>: <span class="dv">400</span>,
+            <span class="dt">height</span>: <span class="dv">300</span>
+        }, options);
+
+        <span class="ot">self</span>.<span class="fu">height</span>(<span class="ot">settings</span>.<span class="fu">height</span>);
+        <span class="ot">self</span>.<span class="fu">width</span>(<span class="ot">settings</span>.<span class="fu">width</span>);
+
+        <span class="kw">return</span> self;
+
+    };
+}(jQuery));</code></pre>
+<h3>Step 4: Implement plugin in HTML</h3>
+<p>Now, in index.html we need to instantiate this plugin. So right beneath the <code>&lt;div&gt;</code> in the index.html we create a new script tag.</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;script</span><span class="ot"> type=</span><span class="st">&quot;text/javascript&quot;</span><span class="kw">&gt;</span>
+<span class="er">$(&quot;#test&quot;).spSlider({</span>
+    width:<span class="dv">200</span>,
+    height:<span class="dv">100</span>
+<span class="er">});</span>
+&lt;<span class="ot">/script&gt;</span></code></pre>
+<p>In order to see how it’s working, let’s quickly go create a file called <strong>style.css</strong> inside the <strong>css/</strong> folder.</p>
+<pre class="sourceCode css"><code class="sourceCode css">div <span class="kw">{</span>
+    <span class="kw">border:</span><span class="dt">1px</span> <span class="dt">solid</span> <span class="dt">red</span><span class="kw">;</span>
+<span class="kw">}</span></code></pre>
+<p>Let’s make sure and reference it in index.html:</p>
+<pre class="sourceCode html"><code class="sourceCode html">    <span class="kw">&lt;link</span><span class="ot"> href=</span><span class="st">&quot;css/style.css&quot;</span><span class="ot"> rel=</span><span class="st">&quot;stylesheet&quot;</span> <span class="kw">/&gt;</span></code></pre>
+<p>Go preview index.html in the browser and you should see a box with a red outline that is 200px wide and 100px tall. Congrats! You just made a jQuery plugin! But that’s just the beginning.</p>
+<h3>Step 5: Importing dynamic data</h3>
+<p>This plugin is great…but doesn’t do anything. We need some data. For right now we’re not going to integrate SharePoint. We’re going to fake it. I always find it’s easier to create the UI separate from the data and then bringing in real data later. So beneath our plugin function (but still within the self-contained function in spSlider.js) we can create a new function and assign it to a variable called <strong>getData</strong>.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">    <span class="ot">$</span>.<span class="ot">fn</span>.<span class="fu">spSlider</span> = <span class="kw">function</span>(options){
+        <span class="co">// plugin we create earlier</span>
+    };
+
+    <span class="kw">var</span> getData = <span class="kw">function</span>(settings) {
+
+        <span class="kw">var</span> data = [
+            {
+                <span class="dt">img</span>: <span class="st">&quot;img/img1.png&quot;</span>,
+                <span class="dt">caption</span>: <span class="st">&quot;test caption&quot;</span>,
+                <span class="dt">link</span>: <span class="st">&quot;http://www.amazon.com&quot;</span>
+            },
+            {
+                <span class="dt">img</span>: <span class="st">&quot;img/img2.png&quot;</span>,
+                <span class="dt">caption</span>: <span class="st">&quot;another caption&quot;</span>,
+                <span class="dt">link</span>: <span class="st">&quot;http://www.ebay.com&quot;</span>
+            },
+            {
+                <span class="dt">img</span>: <span class="st">&quot;img/img3.png&quot;</span>,
+                <span class="dt">caption</span>: <span class="st">&quot;&quot;</span>,
+                <span class="dt">link</span>: <span class="st">&quot;http://www.facebook.com&quot;</span>
+            }
+            
+        ];
+
+        <span class="kw">return</span> data;
+    
+    };</code></pre>
+<p>So this function simply returns an array of objects when it is called. Eventually this function will actually return an array of objects from SharePoint, but for now we’ll stick with this to keep it speedy.</p>
+<p>In <strong>spSlider.js</strong> we need to get this data and pass it into the element the plugin is called from.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="ot">$</span>.<span class="ot">fn</span>.<span class="fu">spSlider</span> = <span class="kw">function</span>(options){
+
+    ...
+
+    <span class="fu">var</span> <span class="fu">data</span> = <span class="fu">getData</span>(settings);
+    <span class="ot">console</span>.<span class="fu">log</span>(data);
+
+    <span class="kw">return</span> self;
+};</code></pre>
+<p>If you check index.html in the browser again, you should see an array with 3 objects appear in the console. This confirms our data is being piped in correctly. Now let’s put it into the DOM.</p>
+<p>Go get 3 images and put them in the <strong>img/</strong> folder and make sure they’re the same size. Name them img1.png, img2.png, and img3.png (to align with our data object we created earlier).</p>
+<h3>Step 6: Creating DOM objects dynamically from data</h3>
+<p>Above the <strong>getData</strong> function we’re going to create another function called <strong>formatData</strong>. This function will iterate through our data and create an html string that is suitable for adding to the DOM. We’ll go in depth with a few of things a bit later:</p>
+<pre><code>var formatData = function(data, settings) {
+    var i, dataLength = data.length;
+
+    // create pagination links
+    var pagination = &quot;&lt;a class=&#39;swipe-nav left&#39;&gt;left&lt;/a&gt;&lt;a class=&#39;swipe-nav right&#39;&gt;right&lt;/a&gt;&quot;;
+
+    // create a wrapper for our slides
+    var slides = &quot;&lt;div class=&#39;swiper-wrapper&#39;&gt;&quot;;
+
+    // iterate through the data
+    for(i = 0; i &lt; dataLength; i++) {
+
+        // assign data to variables from the user&#39;s input
+        var link = data[i][settings.linkColumn] || &quot;&quot;;
+        var img = data[i][settings.imgColumn] || &quot;&quot;;
+        var caption = data[i][settings.captionColumn] || &quot;&quot;;
+        
+        // create a new div for each slide
+        slides += &quot;&lt;div class=&#39;swiper-slide&#39;&gt;&quot;;
+
+        slides += &quot;&lt;a href=&#39;&quot; + data[i].link + &quot;&#39;&gt;&lt;img src=&#39;&quot; + data[i].img + &quot;&#39; /&gt;&lt;/a&gt;&lt;br/&gt;&lt;span&gt;&quot; + data[i].caption + &quot;&lt;/span&gt;&quot;;
+
+        slides += &quot;&lt;/div&gt;&quot;;
+    }
+    // close out the wrapper div
+    slides += &quot;&lt;/div&gt;&quot;;
+
+    // concatenate the pagination and the slides and return the result
+    var result = pagination + slides;
+
+    return result;
+};</code></pre>
+<p>So, that’s a big function, and has a lot of HTML in it. Arguably, you could move this html into a template and include it some other way. But for now this works. Check out the comments to see what we’re doing, but basically we’re just creating a slide for each slide in the data.</p>
+<p>You may have noticed some settings that the user hasn’t provided yet. Now when the user instantiates the plugin, they will pass in a few more things:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="fu">$</span>(<span class="st">&quot;#test&quot;</span>).<span class="fu">spSlider</span>({
+    <span class="dt">width</span>:<span class="dv">200</span>,
+    <span class="dt">height</span>:<span class="dv">100</span>,
+    <span class="dt">linkColumn</span>: <span class="st">&quot;link&quot;</span>,
+    <span class="dt">imgColumn</span>: <span class="st">&quot;img&quot;</span>,
+    <span class="dt">captionColumn</span>: <span class="st">&quot;caption&quot;</span>
+});</code></pre>
+<p>The reason we do this is because SharePoint itself has some funky names for columns (especially the image column). So we can just mask them for the function, and let the user provide the actual column name. This way it’s flexible enough to work in different scenarios.</p>
+<p>Now we need to put this data into the DOM. So back in our plugin, we need to add a few lines. We’re already storing the data in a variable. Now we need to pass that data, and our settings, to the formatData function. This will return the HTML string, which we’ll assign to a variable called <strong>slides</strong>. Then we’ll simply use jQuery to put the content of <strong>slides</strong> into the html of the element.</p>
+<p><em>Note: we will entirely replace anything else in the div that is calling the plugin.</em></p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="ot">$</span>.<span class="ot">fn</span>.<span class="fu">spSlider</span> = <span class="kw">function</span>(options) {
+
+    <span class="kw">var</span> self = <span class="kw">this</span>;
+
+    <span class="kw">var</span> settings = <span class="ot">$</span>.<span class="fu">extend</span>({
+        <span class="dt">width</span>: <span class="dv">400</span>,
+        <span class="dt">height</span>: <span class="dv">300</span>
+    }, options);
+
+    <span class="ot">self</span>.<span class="fu">height</span>(<span class="ot">settings</span>.<span class="fu">height</span>);
+    <span class="ot">self</span>.<span class="fu">width</span>(<span class="ot">settings</span>.<span class="fu">width</span>);
+
+    <span class="kw">var</span> data = <span class="fu">getData</span>(settings);
+    
+    <span class="kw">var</span> slides = <span class="fu">formatData</span>(data, settings);
+
+    <span class="ot">self</span>.<span class="fu">html</span>(slides);
+
+    <span class="kw">return</span> self;
+
+};</code></pre>
+<p>Go preview index.html in the browser. You’ll now see that our div contains 3 images, one after the other. We’re getting closer!</p>
+<p>The next step is to apply a slider that allows us to swipe back and forth between these slides.</p>
+<h3>Step 7: Applying the slider</h3>
+<p>Let’s take a step back. We’re not writing a slider plugin. We’re writing a plugin that allows us to view SharePoint data in a slider format. So that means we need to actually get a slider that works well, and wrap it in our functions. For this tutorial I’ve chosen the awesome <a href="idangero.us/sliders/swiper/api.php">iDangerous Swiper</a>. We’re going to download the source files for that swiper and integrate it with our plugin.</p>
+<p>iDangerous swiper comes with two files we need: * idangerous.swiper-2.3.js * idangerous.swiper.css</p>
+<p>Put these files in their respective places (js/ and css/). Then go and reference them in index.html.</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;head&gt;</span>
+    <span class="kw">&lt;title&gt;</span>SharePoint Slider<span class="kw">&lt;/title&gt;</span>
+    <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;js/jquery-1.10.2.js&quot;</span><span class="ot"> type=</span><span class="st">&quot;text/javascript&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+    <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;js/idangerous.swiper-2.3.js&quot;</span><span class="ot"> type=</span><span class="st">&quot;text/javascript&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+    <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;js/spSlider.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+
+    <span class="kw">&lt;link</span><span class="ot"> href=</span><span class="st">&quot;css/idangerous.swiper.css&quot;</span><span class="ot"> rel=</span><span class="st">&quot;stylesheet&quot;</span> <span class="kw">/&gt;</span>
+    <span class="kw">&lt;link</span><span class="ot"> href=</span><span class="st">&quot;css/style.css&quot;</span><span class="ot"> rel=</span><span class="st">&quot;stylesheet&quot;</span> <span class="kw">/&gt;</span>
+<span class="kw">&lt;/head&gt;</span></code></pre>
+<p>While you have index.html open, go down to the <code>div</code> and add a class of <em>swiper-container</em>. This is what iDangerous needs in order to run the slider.</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> id=</span><span class="st">&quot;text&quot;</span><span class="ot"> class=</span><span class="st">&quot;swiper-container&quot;</span><span class="kw">&gt;&lt;/div&gt;</span></code></pre>
+<p>Open up <strong>spSlider.js</strong> and lets get to work integrating the slider.</p>
+<p>Create a new function above formatData called <strong>applySlider</strong>. This function will accept two parameters: the element it is being applied to, and the settings. All we’re going to do is add a bit of functionality, and then just call the swiper on our element.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> applySlider = <span class="kw">function</span>(el, settings) {
+
+    <span class="co">// set the width and height of the container and slides</span>
+    <span class="ot">el</span>.<span class="fu">children</span>(<span class="st">&quot;.swiper-container&quot;</span>).<span class="fu">height</span>(<span class="ot">settings</span>.<span class="fu">height</span>).<span class="fu">width</span>(<span class="ot">settings</span>.<span class="fu">width</span>);
+    <span class="ot">el</span>.<span class="fu">children</span>(<span class="st">&quot;.swiper-slide&quot;</span>).<span class="fu">height</span>(<span class="ot">settings</span>.<span class="fu">height</span>).<span class="fu">width</span>(<span class="ot">settings</span>.<span class="fu">width</span>);
+
+    <span class="co">// options for the swiper that you want to set default</span>
+    <span class="kw">var</span> hardcodedOptions = {
+        <span class="dt">keyboardControl</span>: <span class="kw">true</span>,
+        <span class="dt">loop</span>: <span class="kw">true</span>
+    };
+
+    <span class="co">// extend the user&#39;s settings with these options</span>
+    <span class="ot">$</span>.<span class="fu">extend</span>(settings, hardcodedOptions);
+
+    <span class="co">// call the swiper plugin on the element we passed</span>
+    <span class="kw">var</span> swiper = <span class="ot">el</span>.<span class="fu">swiper</span>(settings);
+
+    <span class="co">// set click handlers on the navigation arrows</span>
+    <span class="ot">el</span>.<span class="fu">children</span>(<span class="st">&quot;.swipe-nav.left&quot;</span>).<span class="fu">click</span>(<span class="kw">function</span>() {
+        <span class="ot">swiper</span>.<span class="fu">swipePrev</span>();
+    });
+    <span class="ot">el</span>.<span class="fu">children</span>(<span class="st">&quot;.swipe-nav.right&quot;</span>).<span class="fu">click</span>(<span class="kw">function</span>() {
+        <span class="ot">swiper</span>.<span class="fu">swipeNext</span>();
+    });
+};</code></pre>
+<p>So our function is set. Now we need to call that function from within our plugin.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="ot">$</span>.<span class="ot">fn</span>.<span class="fu">spSlider</span> = <span class="kw">function</span>(options) {
+    
+    ...
+
+    <span class="fu">var</span> <span class="fu">data</span> = <span class="fu">getData</span>(settings);
+    
+    <span class="kw">var</span> slides = <span class="fu">formatData</span>(data, settings);
+
+    <span class="ot">self</span>.<span class="fu">html</span>(slides);
+
+    <span class="co">// apply the slider and then return it</span>
+    <span class="kw">var</span> swiper = <span class="fu">applySlider</span>(self, settings);
+
+    <span class="kw">return</span> swiper;
+};</code></pre>
+<p><strong>Apply some CSS</strong></p>
+<p>Before we check out our index.html, lets add a bit of styling to style.css. Check out the source files of this repo and you’ll find right.png and left.png which will replace the ‘left’ and ‘right’ links with nice arrows.</p>
+<pre class="sourceCode css"><code class="sourceCode css"><span class="fl">.swiper-slide</span> <span class="kw">{</span>
+    <span class="kw">position:</span><span class="dt">relative</span><span class="kw">;</span>
+    <span class="kw">text-align:</span><span class="dt">center</span><span class="kw">;</span>
+    <span class="kw">overflow:</span><span class="dt">hidden</span><span class="kw">;</span>
+<span class="kw">}</span>
+
+<span class="fl">.swipe-nav</span> <span class="kw">{</span>
+    <span class="kw">position:</span> <span class="dt">absolute</span><span class="kw">;</span>
+    <span class="kw">top:</span><span class="dt">40%</span><span class="kw">;</span>
+    <span class="kw">background:</span><span class="dt">#000</span><span class="kw">;</span>
+    <span class="kw">text-indent:</span><span class="dt">-9999px</span><span class="kw">;</span>
+    <span class="kw">height:</span><span class="dt">40px</span><span class="kw">;</span>
+    <span class="kw">width:</span><span class="dt">35px</span><span class="kw">;</span>
+    <span class="kw">z-index:</span><span class="dt">9999</span><span class="kw">;</span>
+    <span class="kw">cursor:</span><span class="dt">pointer</span><span class="kw">;</span>
+<span class="kw">}</span>
+
+<span class="fl">.swipe-nav.right</span> <span class="kw">{</span>
+    <span class="kw">right:</span><span class="dt">0</span><span class="kw">;</span>
+    <span class="kw">background:</span> <span class="dt">transparent</span> <span class="dt">url(</span><span class="st">&#39;../img/right.png&#39;</span><span class="dt">)</span> <span class="dt">no-repeat</span> <span class="dt">center</span> <span class="dt">center</span><span class="kw">;</span>
+<span class="kw">}</span>
+<span class="fl">.swipe-nav.left</span> <span class="kw">{</span>
+    <span class="kw">left:</span><span class="dt">0</span><span class="kw">;</span>
+    <span class="kw">background:</span> <span class="dt">transparent</span> <span class="dt">url(</span><span class="st">&#39;../img/left.png&#39;</span><span class="dt">)</span> <span class="dt">no-repeat</span> <span class="dt">center</span> <span class="dt">center</span><span class="kw">;</span>
+<span class="kw">}</span>
+<span class="fl">.swipe-nav</span><span class="dv">:hover</span> <span class="kw">{</span>
+    <span class="kw">background-color:</span><span class="dt">#333</span><span class="kw">;</span>
+<span class="kw">}</span></code></pre>
+<p>Now if you go and preview index.html you should see a swipeable div of photos! We’re not done, but we’ve got a nice functioning slideshow. At this point it should be noted that this wrapper plugin can be used with <strong>any</strong> slider/swiper and with <strong>any</strong> database (not just SharePoint). All that needs to be replaced are the getData() function and applySlider() function in order to add all sorts of different functionality. Of course, for this tutorial the next step is to add SharePoint capability to the slider.</p>
+<h3>Step 8: Integrating SharePoint</h3>
+<p>We’re going to be focusing on the getData() function for this part of the tutorial. But before we do, first go and grab <a href="http://spservices.codeplex.com">SPServices</a> , put it in the <strong>js/</strong> folder, and reference it right above the reference to spSlider.js in index.html.</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;head&gt;</span>
+    <span class="kw">&lt;title&gt;</span>SharePoint Slider<span class="kw">&lt;/title&gt;</span>
+    <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;js/jquery-1.10.2.js&quot;</span><span class="ot"> type=</span><span class="st">&quot;text/javascript&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+    <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;js/idangerous.swiper-2.3.js&quot;</span><span class="ot"> type=</span><span class="st">&quot;text/javascript&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+    <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;js/jquery.SPServices-0.7.2.js&quot;</span><span class="ot"> type=</span><span class="st">&quot;text/javascript&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+    <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;js/spSlider.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+
+    <span class="kw">&lt;link</span><span class="ot"> href=</span><span class="st">&quot;css/idangerous.swiper.css&quot;</span><span class="ot"> rel=</span><span class="st">&quot;stylesheet&quot;</span> <span class="kw">/&gt;</span>
+    <span class="kw">&lt;link</span><span class="ot"> href=</span><span class="st">&quot;css/style.css&quot;</span><span class="ot"> rel=</span><span class="st">&quot;stylesheet&quot;</span> <span class="kw">/&gt;</span>
+<span class="kw">&lt;/head&gt;</span></code></pre>
+<p>So in getData() we’re going to create a new SPServices call. Then we’ll store the data in a variable, and return it. For now we’re going to keep things <strong>synchronous</strong>. But later on I’ll show you a method of asynchronously loading the data into our slider.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> getData = <span class="kw">function</span>(settings) {
+    <span class="kw">var</span> data = [];
+    
+    <span class="fu">$</span>().<span class="fu">SPServices</span>({
+        <span class="dt">operation</span>: <span class="st">&quot;GetListItems&quot;</span>,
+        <span class="dt">async</span>: <span class="kw">false</span>,
+        <span class="dt">webURL</span>: <span class="ot">settings</span>.<span class="fu">listURL</span>,
+        <span class="dt">listName</span>: <span class="ot">settings</span>.<span class="fu">listName</span>,
+        <span class="dt">CAMLRowLimit</span>: <span class="ot">settings</span>.<span class="fu">limit</span>,
+        <span class="dt">CAMLViewFields</span>: <span class="st">&quot;&lt;ViewFields Properties=&#39;True&#39; /&gt;&quot;</span>,
+        <span class="dt">completefunc</span>: <span class="kw">function</span>(xData, Status) {
+            data = <span class="fu">$</span>(<span class="ot">xData</span>.<span class="fu">responseXML</span>).<span class="fu">SPFilterNode</span>(<span class="st">&quot;z:row&quot;</span>).<span class="fu">SPXmlToJSON</span>({
+                <span class="dt">includeAllAttrs</span>: <span class="kw">true</span>,
+                <span class="dt">removeOws</span>: <span class="kw">true</span>
+            });
+        }
+    });
+
+    <span class="kw">return</span> data;
+};</code></pre>
+<p>One of the first things to pay attention to here is the settings.listURL and settings.listName in the function. These are settings the user needs to pass when calling the plugin.</p>
+<pre class="javscript"><code>$(&quot;#test&quot;).spSlider({
+    width:200,
+    height:100,
+    listURL: &quot;https://sharepoint/subsite&quot;,
+    listName: &quot;Pictures&quot;,
+    limit: 5,
+    imgColumn: &quot;EncodedAbsUrl&quot;
+});</code></pre>
+<p>If you’re familiar with SPServices, then these two items will make sense. They are just the URL where the list is residing, and the name of the list itself. <strong>Fair warning:</strong> If you create lists with spaces or special characters in the name it will become very difficult to figure out the exact name of the list. You’ve been warned!</p>
+<p>Also, note that the imgColumn has been set to <strong>EncodedAbsUrl</strong>. This is SharePoint’s default name for the image column in a Picture Library. I advise using this plugin with a picture library, as it will require no customization on your part.</p>
+<p>At this point, the plugin will grab data from SharePoint and put it in a slideshow. If you set the limit to something nice and small (like 5) it won’t take too long to wait for your images to appear. However, if you have a lot of images it would probably be better to load things asynchronously. We’ll cover that a bit later. But right now we’re going to talk about how to integrate this plugin into an actual SharePoint site. This will first include a quick intro on how I’m using Grunt to package everything up nice and small.</p>
+<h3>Step 9: Packaging the project</h3>
+<p>I’m not going to go into great detail here, as all of the files are included in the repo and you can look through them to see how things are setup.</p>
+<ul>
+<li>Install Node.js</li>
+<li>Install Grunt to your project</li>
+<li>Create a package.json file and a Gruntfile.js (see the repo)</li>
+<li>grunt the project</li>
+</ul>
+<p>When the project has been grunted, it will create a few packaged files inside a <strong>dist/</strong> folder. This is especially important for the javascript. The file spSlider-pkg.min.js includes all of the libraries used. Also, grunting the project produces a minified CSS file that includes both CSS files used. It also copies the image files from the image folder (for the arrows).</p>
+<h3>Step 10: Installing the plugin for end users</h3>
+<p>In order to use this plugin throughout your whole SharePoint site, you’ll want to upload it to a central place. Because SPServices is amazing, you’ll be able to query any list from anywhere inside the site collection.</p>
+<p><strong>A: Create a document library</strong></p>
+<p>Create a new document library and put the <strong>dist/</strong> folder in it, with all of its subfolders and files.</p>
+<p><strong>B: Create a .txt file for each instantiation</strong></p>
+<p>Create a file called slider.txt. In that file, we’re basically going to put some html:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="co">&lt;!-- include js and css files --&gt;</span>
+<span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;https://sharepoint/subsite/slider/dist/js/spSlider-pkg.min.js&quot;</span><span class="ot"> type=</span><span class="st">&quot;text/javascript&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+<span class="kw">&lt;link</span><span class="ot"> href=</span><span class="st">&quot;https://sharepoint/subsite/slider/dist/css/spSlider.min.css&quot;</span><span class="ot"> rel=</span><span class="st">&quot;stylesheet&quot;</span> <span class="kw">/&gt;</span>
+
+<span class="co">&lt;!-- begin slider script and markup --&gt;</span>
+<span class="kw">&lt;div</span><span class="ot"> id=</span><span class="st">&quot;slider1&quot;</span><span class="ot"> class=</span><span class="st">&quot;swiper-container&quot;</span><span class="kw">&gt;&lt;/div&gt;</span>
+<span class="kw">&lt;script&gt;</span>
+<span class="er">    $(&quot;#slider1&quot;).spSlider({</span>
+        width: <span class="dv">400</span>,
+        height: <span class="dv">200</span>,
+        listURL: <span class="st">&quot;https://sharepoint/community&quot;</span>,
+        listName: <span class="st">&quot;Photos&quot;</span>,
+        limit: <span class="dv">3</span>,
+        imageColumn: <span class="st">&quot;EncodedAbsUrl&quot;</span>
+    });
+<span class="kw">&lt;/script&gt;</span>
+<span class="co">&lt;!-- end slider script and markup --&gt;</span></code></pre>
+<p><strong>C: Put on the page</strong></p>
+<p>Edit the page that you would like to put the slider on, and add a new Content Editor WebPart (CEWP). Click “Edit Webpart” in the little menu on the top right of the webpart. Then put the direct link to that text file you just created and click OK. Now the slider should appear on the page!</p>
+<p>So, moving forward, a new .txt file should be created for each usage. It doesn’t have to reside in the same folder as the <strong>dist/</strong> folder, but it must have an absolute reference to those files. This means in order to create a new slider you only have to modify xyz.txt and upload it somewhere. My recommendation: create a document library (or a folder in the one you already made) called sliderFiles or something. Then create files with the date and userID/username/lastname, etc. of the person or project requesting it. That will make it easier to find later!</p>
+<h3>Bonus: Making things asynchronous</h3>
+<p>For the final act, we will make things load…faster! Well…technically not faster, but at least asynchronously. You’ll notice in the SPServices call that we made earler that we set <code>async: false</code>. Now we’ll change that to <code>true</code>, but we’ll need to add a few more things.</p>
+<p>Now that our call is asynchronous, it means we’ll get all of our data back <strong>after</strong> we’ve appended items to the DOM. This will cause nothing but problems. So we’re going to take advantage of jQuery’s <em>Deferred</em> method. Open up <strong>spSlider.js</strong> and let’s get to it!</p>
+<p>First, let’s modify the getData() function</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="co">// get data from SharePoint</span>
+<span class="kw">var</span> getData = <span class="kw">function</span>(settings) {
+    <span class="kw">var</span> defer = <span class="ot">$</span>.<span class="fu">Deferred</span>();
+    <span class="fu">$</span>().<span class="fu">SPServices</span>({
+        <span class="dt">operation</span>: <span class="st">&quot;GetListItems&quot;</span>,
+        <span class="dt">async</span>: <span class="kw">true</span>,
+        <span class="dt">webURL</span>: <span class="ot">settings</span>.<span class="fu">listURL</span>,
+        <span class="dt">listName</span>: <span class="ot">settings</span>.<span class="fu">listName</span>,
+        <span class="co">// query for category</span>
+        <span class="dt">CAMLViewFields</span>: <span class="st">&quot;&lt;ViewFields Properties=&#39;True&#39; /&gt;&quot;</span>,
+        <span class="dt">CAMLQuery</span>: <span class="st">&quot;&lt;Query&gt;&lt;Where&gt;&lt;Eq&gt;&lt;FieldRef Name=&#39;ContentType&#39; /&gt;&lt;Value Type=&#39;Text&#39;&gt;Picture&lt;/Value&gt;&lt;/Eq&gt;&lt;/Where&gt;&lt;OrderBy&gt;&lt;FieldRef Name=&#39;ID&#39; Ascending=&#39;False&#39; /&gt;&lt;/OrderBy&gt;&lt;/Query&gt;&quot;</span>,
+        <span class="dt">CAMLRowLimit</span>: <span class="ot">settings</span>.<span class="fu">limit</span>,
+        <span class="dt">completefunc</span>: <span class="kw">function</span>(xData, Status) {
+            <span class="kw">var</span> data = <span class="fu">$</span>(<span class="ot">xData</span>.<span class="fu">responseXML</span>).<span class="fu">SPFilterNode</span>(<span class="st">&quot;z:row&quot;</span>).<span class="fu">SPXmlToJson</span>({ 
+                <span class="dt">includeAllAttrs</span>: <span class="kw">true</span>,
+                <span class="dt">removeOws</span>: <span class="kw">true</span>
+            });
+            <span class="ot">defer</span>.<span class="fu">resolve</span>(data);
+        }
+    });
+    <span class="kw">return</span> <span class="ot">defer</span>.<span class="fu">promise</span>();
+};</code></pre>
+<p>There are a few things to take note of here: * async: true (bringing in results asynchronously) * $.Deferred(), defer.resolve(), and defer.promise() * CAMLQuery (added this since the last time we looked at this function…it just ensures we’re bringing back content that is indeed a picture)</p>
+<p>With this deferred object we simply return back a <em>promise</em> of data. Once that data resolves (ie, it’s done), then we can use the data. So the next step is to listen for the “done” feature of the Deferred object.</p>
+<p>We’re going to create a new function called <strong>outputSlides()</strong>:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> outputSlides = <span class="kw">function</span>(settings) {
+    <span class="kw">var</span> defer = <span class="ot">$</span>.<span class="fu">Deferred</span>();
+    
+    <span class="kw">var</span> data = <span class="fu">getData</span>(settings);
+    <span class="ot">$</span>.<span class="fu">when</span>(data).<span class="fu">done</span>(<span class="kw">function</span>(pics){
+        <span class="kw">var</span> slides = <span class="fu">formatData</span>(pics, settings);
+        <span class="ot">defer</span>.<span class="fu">resolve</span>(slides);
+    });
+    
+    <span class="kw">return</span> <span class="ot">defer</span>.<span class="fu">promise</span>();
+};</code></pre>
+<p>Yes, this also has a deferred object in it. But pay attention to the line where we say <code>$.when(data).done()</code>. This is the function that reads a deferred’s promise and only runs once it’s <em>done</em>. It returns us whatever we resolved the deferred object with (in this case, the SharePoint data), so we can use it right there. Within this function we’re creating the slides and resolving those slides when they’ve been created.</p>
+<p>Finally, our last step is to modify the plugin itself.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="ot">$</span>.<span class="ot">fn</span>.<span class="fu">spSlider</span> = <span class="kw">function</span>(options) {
+    <span class="kw">var</span> self = <span class="kw">this</span>;
+    
+    ...
+
+    <span class="co">// get the HTML content for outputting to element</span>
+    <span class="kw">var</span> slides = <span class="fu">outputSlides</span>(settings);
+
+    <span class="co">// wait for slides to be done before we move ahead modifying the DOM</span>
+    <span class="ot">$</span>.<span class="fu">when</span>(slides).<span class="fu">done</span>(<span class="kw">function</span>(slideData) {
+
+        <span class="co">// set innerHTML of element</span>
+        <span class="ot">self</span>.<span class="fu">html</span>(slideData);
+
+        <span class="co">// apply the plugin</span>
+        <span class="kw">var</span> result = <span class="fu">applyPlugin</span>(self, settings);
+        
+        <span class="kw">return</span> result;
+    
+    });
+};</code></pre>
+<p>Hopefully this isn’t too confusing. But basically all we’re doing is making sure that we’ve in fact got the data from SharePoint, and it’s been formatted as HTML, and then we insert it in the DOM. That’s it!</p>
+<h3>Conclusion</h3>
+So, in conclusion, I’d love to know your thoughts!
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5753416-10']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>

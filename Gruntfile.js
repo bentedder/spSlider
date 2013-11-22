@@ -66,6 +66,18 @@ module.exports = function(grunt) {
         ]
 
       }
+    },
+    pandoc: {
+      toHtml: {
+        configs: {
+          "publish": "HTML"
+        },
+        files: {
+          "from": [
+            "tutorial.md"
+          ]
+        }
+      }
     }
   });
 
@@ -73,6 +85,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-contrib-uglify");
   grunt.loadNpmTasks("grunt-contrib-cssmin");  
   grunt.loadNpmTasks("grunt-contrib-copy");
+  grunt.loadNpmTasks("grunt-pandoc");
   
   // Template mutlitask
   
